@@ -1,0 +1,11 @@
+{
+  "fps": 30,
+  "name": "Device 1",
+  "location": "Location 1",
+  "universes": [10, 3],
+  "channels_per_universe": [235, 512],
+  "pixel_pin": "board.D18",
+  "num_of_pixels": 500,
+  "brightness": 255,
+  "pixel_order": "neopixel.GRB"
+}
