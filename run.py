@@ -22,7 +22,7 @@ def main():
     PIXEL_ORDER = CONFIG_DATA['pixel_order']
     
     pixels = neopixel.NeoPixel(
-    PIXEL_PIN, NUM_OF_LEDS, brightness=BRIGHTNESS, auto_write=True, pixel_order=PIXEL_ORDER
+    PIXEL_PIN, NUM_OF_LEDS, brightness=BRIGHTNESS, auto_write=False, pixel_order=PIXEL_ORDER
     )
     print("NeoPixel initialized")
     
