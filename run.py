@@ -50,7 +50,7 @@ def callback(packet):  # packet type: sacn.DataPacket
     global pixels
     
     if packet.dmxStartCode == 0x00:  # ignore non-DMX-data packets
-        print(packet.dmxData)  # print the received DMX data
+        # print(packet.dmxData)  # print the received DMX data
         
         pixels.fill((0, 0, 0)) # turn all LEDs off to clear any previous data
         
