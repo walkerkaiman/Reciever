@@ -5,6 +5,7 @@ receiver = sacn.sACNreceiver()
 
 CONFIG_DATA = {}
 FPS = 30
+debugging = True
 
 def main():
     global CONFIG_DATA
@@ -24,24 +25,28 @@ def main():
     pixels = neopixel.NeoPixel(
     PIXEL_PIN, NUM_OF_LEDS, brightness=BRIGHTNESS, auto_write=False, pixel_order=PIXEL_ORDER
     )
-    print("NeoPixel initialized")
+    if(debugging):
+        print("NeoPixel initialized")
     
     receiver = sacn.sACNreceiver()
     receiver.start()  # start the receiving thread
     
-    print("Listening for DMX data...")
-    print("Press Ctrl+C to stop")
+    if(debugging):
+        print("Listening for DMX data...")
+        print("Press Ctrl+C to stop")
     
     try:
         while True:
             pass
     except KeyboardInterrupt:
-        print("Stopping...")
+        if(debugging):
+            print("Stopping...")
     finally:
         receiver.stop()  # stop the receiving thread
         pixels.fill((0, 0, 0)) # turn all LEDs off
         pixels.show()
-        print("Stopped")
+        if(debugging):
+            print("Stopped")
         
 # define a callback function
 @receiver.listen_on('universe', universe=1)  # listens on universe 1
