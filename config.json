@@ -1,0 +1,7 @@
+{
+  "led_brightness": 0.3,
+  "num_leds": 300,
+  "universe": 1,
+  "udp_port": 5005,
+  "loop_file": "loop.py"
+}

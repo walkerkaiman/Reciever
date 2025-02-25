@@ -5,7 +5,7 @@ from pynput import keyboard
 import socket
 
 num_pixels = 512
-current_state = "stream"  # initial state
+current_state = "loop"  # initial state
 
 # Setup a UDP socket to send state-switching commands.
 udp_ip = "192.168.4.84"  # Replace with your installation's IP if different.
