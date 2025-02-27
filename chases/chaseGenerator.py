@@ -6,13 +6,14 @@ import random
 import math
 
 # Generate RGB values for a frame using different techniques
-def generate_frame(animation_type, num_channels):
+def generate_frame(animation_type, num_channels, frame_idx, num_frames):
+    time_factor = frame_idx / num_frames  # Normalize time between 0 and 1
     if animation_type == "sparkle":
-        return generate_sparkle_frame(num_channels)
+        return generate_sparkle_frame(num_channels, time_factor)
     elif animation_type == "perlin_noise":
-        return generate_perlin_noise_frame(num_channels)
+        return generate_perlin_noise_frame(num_channels, time_factor)
     elif animation_type == "gradient":
-        return generate_gradient_frame(num_channels)
+        return generate_gradient_frame(num_channels, time_factor)
     else:
         return generate_random_frame(num_channels)
 
@@ -20,29 +21,30 @@ def generate_frame(animation_type, num_channels):
 def generate_random_frame(num_channels):
     return [random.randint(0, 255) for _ in range(num_channels)]
 
-# Sparkle effect: A few random channels get bright RGB values
-def generate_sparkle_frame(num_channels):
+# Sparkle effect: A few random channels get bright RGB values, but with Z-space movement
+def generate_sparkle_frame(num_channels, time_factor):
     frame = [0] * num_channels
     num_sparkles = random.randint(1, 10)  # Random number of sparkles
     for _ in range(num_sparkles):
         channel = random.randint(0, num_channels - 1)
-        frame[channel] = random.randint(200, 255)  # Set the sparkle to a bright value
+        # Use time_factor to simulate slow movement (shift over time)
+        frame[channel] = random.randint(200, 255) * (math.sin(time_factor * 2 * math.pi) + 1) / 2  # Smooth modulation
     return frame
 
-# Perlin Noise: Smooth noise for gradual transitions
-def generate_perlin_noise_frame(num_channels):
+# Perlin Noise: Smooth noise for gradual transitions, with Z-space movement
+def generate_perlin_noise_frame(num_channels, time_factor):
     frame = []
     for i in range(num_channels):
-        noise_value = noise.pnoise1(i / 100.0, octaves=1, persistence=0.5, lacunarity=2.0)
+        noise_value = noise.pnoise1((i + time_factor * 100) / 100.0, octaves=1, persistence=0.5, lacunarity=2.0)
         frame.append(int((noise_value + 1) * 127))  # Normalize to range [0, 255]
     return frame
 
-# Gradient: Smooth transition from one color to another (e.g., fading)
-def generate_gradient_frame(num_channels):
+# Gradient: Smooth transition from one color to another, with Z-space movement
+def generate_gradient_frame(num_channels, time_factor):
     frame = []
     for i in range(num_channels):
-        # Simple gradient based on channel position (e.g., red -> green -> blue)
-        color_value = int((math.sin(i / num_channels * math.pi * 2) + 1) * 127)
+        # Simple gradient based on channel position, and time_factor moves the gradient
+        color_value = int(((math.sin((i + time_factor * 100) / num_channels * math.pi * 2) + 1) * 127))
         frame.append(color_value)
     return frame
 
@@ -53,7 +55,7 @@ def create_csv(animation_name, num_frames, animation_type, num_channels):
         writer = csv.writer(file)
         # Write the frames
         for frame_idx in range(num_frames):
-            frame = generate_frame(animation_type, num_channels)
+            frame = generate_frame(animation_type, num_channels, frame_idx, num_frames)
             writer.writerow(frame)
     
     print(f"CSV file created: {filename}")
