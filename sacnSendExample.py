@@ -25,17 +25,19 @@ def on_key_press(key):
     global current_state
     if hasattr(key, "char"):
         if key.char == "1":
-            # Send a frame of random DMX data.
-            dmx_data = []
-            for i in range(num_pixels):
-                dmx_data.append(random.randint(0, 255))
-            sender[universe_id].dmx_data = tuple(dmx_data)
-            print("DMX Sent!")
+            if current_state == "stream":
+                # Send a frame of random DMX data.
+                dmx_data = []
+                for i in range(num_pixels):
+                    dmx_data.append(random.randint(0, 255))
+                sender[universe_id].dmx_data = tuple(dmx_data)
+                print("DMX Sent!")
         elif key.char == "0":
-            # Turn off the LEDs.
-            dmx_data = (0,) * num_pixels
-            sender[universe_id].dmx_data = tuple(dmx_data)
-            print("DMX Sent! (LEDs Off)")
+            if current_state == "stream":
+                # Turn off the LEDs.
+                dmx_data = (0,) * num_pixels
+                sender[universe_id].dmx_data = tuple(dmx_data)
+                print("DMX Sent! (LEDs Off)")
         elif key.char == "2":
             # Toggle the state between 'stream' and 'loop'
             if current_state == "stream":
