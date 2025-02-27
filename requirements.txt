@@ -1,0 +1,7 @@
+evdev==1.9.1
+noise==1.2.2
+numpy==2.2.3
+pynput==1.7.7
+python-xlib==0.33
+sacn==1.11.0
+six==1.17.0
