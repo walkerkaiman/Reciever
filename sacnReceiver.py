@@ -23,7 +23,7 @@ UNIVERSE = config.get("universe", 1)
 UDP_PORT = config.get("udp_port", 5005)
 LOOP_FILE = config.get("loop_file", "loop.py")
 
-# Global state variable; default is "stream"
+# Global state variable; default is "loop"
 current_state = "loop"
 last_state = "loop"  # used to detect state transitions
 
@@ -38,12 +38,15 @@ external_loop_module = None
 
 def load_external_loop_module():
     global external_loop_module
+
     module_name = "external_loop"
     module_path = os.path.join(os.path.dirname(__file__), LOOP_FILE)
+
     if os.path.exists(module_path):
         spec = importlib.util.spec_from_file_location(module_name, module_path)
         external_loop_module = importlib.util.module_from_spec(spec)
         spec.loader.exec_module(external_loop_module)
+        
         # Optionally run a setup routine from the external module.
         if hasattr(external_loop_module, "setup"):
             external_loop_module.setup(pixels)
@@ -64,11 +67,11 @@ receiver.start()
 @receiver.listen_on('universe', universe=UNIVERSE)
 def callback(packet):
     """
-    Only process DMX data when in "stream" mode.
+    Only process DMX data when in "show" mode.
     Convert incoming DMX data into RGB groups and enqueue.
     """
-    if current_state != "stream":
-        return  # ignore DMX data when not streaming
+    if current_state != "show":
+        return  # ignore DMX data when not in show
     if not packet.dmxData or len(packet.dmxData) < 3:
         return
     dmx = list(packet.dmxData)
@@ -81,7 +84,7 @@ def callback(packet):
 # =============================================================================
 def udp_listener():
     """
-    Listen on UDP (port 5005) for messages ("stream" or "loop")
+    Listen on UDP (port 5005) for messages ("show" or "loop")
     to change state. When switching to "loop", flush any queued DMX data.
     """
     global current_state
@@ -93,7 +96,7 @@ def udp_listener():
     while True:
         data, addr = sock.recvfrom(1024)
         message = data.decode('utf-8').strip().lower()
-        if message in ["stream", "loop"]:
+        if message in ["show", "loop"]:
             current_state = message
             print("\nState switched to:", current_state)
             # Flush the DMX update queue when switching modes.
@@ -131,7 +134,7 @@ def update_leds():
     """
     Update the LED strip based on the current state.
     
-    In "stream" mode:
+    In "show" mode:
       - Pull DMX data from the update_queue and update the LEDs.
       
     In "loop" mode:
@@ -150,7 +153,7 @@ def update_leds():
         pixels.show()
         last_state = current_state
 
-    if current_state == "stream":
+    if current_state == "show":
         try:
             pixel_data = update_queue.get(timeout=0.01)
             for i, color in enumerate(pixel_data):
@@ -191,7 +194,7 @@ if __name__ == '__main__':
         # Main loop: update LEDs from the main thread.
         while True:
             update_leds()
-            if current_state == "stream":
+            if current_state == "show":
                 time.sleep(0.01)
     except KeyboardInterrupt:
         pixels.fill((0, 0, 0))
