@@ -70,7 +70,8 @@ last_state = "loop"
 # Load external loop module if available.
 # -----------------------------------------------------------------------------
 def load_external_loop_module():
-    global external_loop_module
+    global external_loop_module, universes
+
     module_name = "external_loop"
     module_path = os.path.join(os.path.dirname(__file__), LOOP_FILE)
     if os.path.exists(module_path):
@@ -171,7 +172,7 @@ def update_leds():
     elif current_state == "loop":
         # In loop mode, delegate update to the external loop module if available.
         if external_loop_module and hasattr(external_loop_module, "update"):
-            (universes)
+            external_loop_module.update(universes)
         else:
             # Fallback: simple animation (a shifting white dot) per universe.
             for uni in universes.values():
