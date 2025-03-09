@@ -25,7 +25,7 @@ def setup(led_universes):
                             
     Initializes an independent animation position for each universe and clears all LED strips.
     """
-    global positions, led_data
+    global positions
     positions = {}
 
     for key, uni in led_universes.items():
@@ -53,7 +53,7 @@ def update(led_universes):
       - Updates the position tracker.
       - Calls pixels.show() to update the hardware.
     """
-    global positions, led_data
+    global positions
 
     for key, uni in led_universes.items():
 
