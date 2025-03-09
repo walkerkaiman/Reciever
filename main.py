@@ -47,13 +47,11 @@ for uni_config in config["universes"]:
     data_pin = PIN_LOOKUP[uni_config["data_pin"]]
     brightness = uni_config.get("brightness", 1.0)
     channels_per_universe = uni_config.get("channels_per_universe", 512)
-    # The number of LEDs is now set directly to channels_per_universe.
     num_leds = channels_per_universe
 
     universes[universe_num] = {
         "pixels": neopixel.NeoPixel(data_pin, num_leds, brightness=brightness, auto_write=False),
         "update_queue": queue.Queue(),
-        # Save initialization parameters for potential reinitialization.
         "data_pin": data_pin,
         "num_leds": num_leds,
         "brightness": brightness
@@ -76,7 +74,7 @@ def load_external_loop_module():
         spec = importlib.util.spec_from_file_location(module_name, module_path)
         external_loop_module = importlib.util.module_from_spec(spec)
         spec.loader.exec_module(external_loop_module)
-        # Pass the full universes dictionary to the setup function, if defined.
+
         if hasattr(external_loop_module, "setup"):
             external_loop_module.setup(universes)
         print("Loaded external loop module from:", module_path)
@@ -174,6 +172,7 @@ def update_leds():
                 pos = int(time.time() * 10) % num_pixels
                 uni["pixels"][pos] = (255, 255, 255)
                 uni["pixels"].show()
+                print("No installation file found. Assign correct loop file.")
 
 if __name__ == '__main__':
     threading.Thread(target=udp_listener, daemon=True).start()
