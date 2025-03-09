@@ -18,6 +18,7 @@ with open("config.json", "r") as f:
 
 UDP_PORT = config.get("udp_port", 5000)
 LOOP_FILE = config.get("loop_file", "loop.py")
+FRAME_RATE = 30
 
 PIN_LOOKUP = {
     "GPIO18": board.D18,
@@ -108,15 +109,19 @@ for universe_num in universes.keys():
 # -----------------------------------------------------------------------------
 def udp_listener():
     global current_state
+    
     sock = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
     sock.bind(("0.0.0.0", UDP_PORT))
     print("UDP listener started on port", UDP_PORT)
+    
     while True:
         data, _ = sock.recvfrom(1024)
         message = data.decode("utf-8").strip().lower()
+        
         if message in ["show", "loop"]:
             current_state = message
             print("State switched to:", current_state)
+            
             # Flush DMX queues when switching to loop mode.
             if current_state == "loop":
                 for uni in universes.values():
@@ -142,6 +147,7 @@ def command_line_animation():
 # -----------------------------------------------------------------------------
 def update_leds():
     global last_state, current_state
+    
     # On state change, clear all LED strips.
     if last_state != current_state:
         for uni in universes.values():
@@ -165,7 +171,7 @@ def update_leds():
     elif current_state == "loop":
         # In loop mode, delegate update to the external loop module if available.
         if external_loop_module and hasattr(external_loop_module, "update"):
-            external_loop_module.update(universes)
+            S(universes)
         else:
             # Fallback: simple animation (a shifting white dot) per universe.
             for uni in universes.values():
@@ -182,10 +188,7 @@ if __name__ == '__main__':
     try:
         while True:
             update_leds()
-            if current_state == "show":
-                time.sleep(0.01)
-            else:
-                time.sleep(0.1)
+            time.sleep(1 / FRAME_RATE)
     except KeyboardInterrupt:
         for uni in universes.values():
             uni["pixels"].fill((0, 0, 0))

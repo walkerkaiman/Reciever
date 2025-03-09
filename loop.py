@@ -13,7 +13,6 @@ import time
 
 # Dictionary to track the current position for each universe.
 positions = {}
-FPS = 30  # Frames per second (controls animation speed)
 
 def setup(led_universes):
     """
@@ -71,5 +70,3 @@ def update(led_universes):
         except RuntimeError as e:
             print(f"Error updating universe {key}: {e}")
 
-    # Delay to control the animation speed.
-    time.sleep(1 / FPS)
