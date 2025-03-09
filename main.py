@@ -57,7 +57,7 @@ for uni_config in config["universes"]:
         "brightness": brightness
     }
 
-    print("Initialized universe " {universe_num}, " on pin " {data_pin})
+    print("Initialized universe " {universe_num} " on pin " {data_pin})
 
 # -----------------------------------------------------------------------------
 # Global state variable for mode ("loop" or "show")
