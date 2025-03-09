@@ -172,7 +172,7 @@ def update_leds():
                 pos = int(time.time() * 10) % num_pixels
                 uni["pixels"][pos] = (255, 255, 255)
                 uni["pixels"].show()
-                print("No installation file found. Assign correct loop file.")
+                print("No loop file found. Make sure it exists and correctly assigned in config.json.")
 
 if __name__ == '__main__':
     threading.Thread(target=udp_listener, daemon=True).start()
