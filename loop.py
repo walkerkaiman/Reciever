@@ -40,6 +40,7 @@ def setup(led_universes):
     print("Loop mode setup complete with independent positions for each universe.")
 
 def update(led_universes):
+    print(led_universes)
     """
     Called repeatedly while in 'loop' mode.
     
@@ -56,10 +57,8 @@ def update(led_universes):
     global positions
 
     for key, uni in led_universes.items():
+
         num_pixels = len(uni["pixels"])
-        
-        if num_pixels == 0:
-            continue
 
         # Ensure the strip is cleared before updating
         uni["pixels"].fill((0, 0, 0))
