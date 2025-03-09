@@ -1,8 +1,21 @@
+"""
+GPIO Operations:
+Reading sensor values via libraries like RPi.GPIO or gpiozero is generally fast. 
+If you keep these operations optimized (for example, avoid long blocking calls), 
+they should not delay the LED updates significantly.
+
+Best Practices:
+Ensure that the update function in loop.py returns quickly. 
+If a sensor read or any GPIO operation takes too long, you might notice a lag in your LED animations. 
+Also, if using RPi.GPIO, remember to call GPIO.cleanup() when needed (typically on exit) 
+to avoid resource conflicts.
+"""
 import time
+import RPi.GPIO
 
 # Global variables (if needed)
 position = 0  # Tracks the current LED position
-FRAME_DELAY = 0.02  # Delay between updates
+FRAME_DELAY = 0.01  # Delay between updates
 
 def setup(pixels):
     """

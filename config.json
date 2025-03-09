@@ -1,7 +1,24 @@
 {
-  "led_brightness": 0.3,
-  "num_leds": 300,
-  "universe": 1,
-  "udp_port": 5005,
-  "loop_file": "loop.py"
+  "udp_port": 5000,
+  "loop_file": "loop.py",
+  "universes": [
+    {
+      "brightness": 0.8,
+      "channels_per_universe": 512,
+      "universe": 1,
+      "data_pin": "GPIO18",
+    },
+    {
+      "brightness": 0.5,
+      "channels_per_universe": 256,
+      "universe": 2,
+      "data_pin": "GPIO17",
+    },
+    {
+      "brightness": 1.0,
+      "channels_per_universe": 128,
+      "universe": 3,
+      "data_pin": "GPIO27",
+    }
+  ]
 }
