@@ -66,7 +66,7 @@ current_state = "loop"
 last_state = "loop"
 
 # -----------------------------------------------------------------------------
-# Load external loop module (loop.py) if available
+# Load external loop module if available. Can set name from config file.
 # -----------------------------------------------------------------------------
 def load_external_loop_module():
     global external_loop_module
