@@ -66,8 +66,8 @@ def update(led_universes):
         uni["pixels"][positions[key]] = (100, 150, 255)
 
         try:
-            #uni["pixels"].show()
-            print(f"universe: {key} Position: {positions[key]}")
+            uni["pixels"].show()
+            #print(f"universe: {key} Position: {positions[key]}")
         except RuntimeError as e:
             print(f"Error updating universe {key}: {e}")
 
