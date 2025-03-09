@@ -8,8 +8,8 @@ the code will reinitialize that universe's LED strip using stored parameters.
 """
 
 import time
-import RPi.GPIO  # For sensor or input operations
-import neopixel
+#import RPi.GPIO  # For sensor or input operations
+#import neopixel
 
 # Dictionary to track the current position for each universe.
 positions = {}
@@ -52,8 +52,6 @@ def update(led_universes):
       - Lights one LED (white) at the current position.
       - Updates the position tracker.
       - Calls pixels.show() to update the hardware.
-    
-    If pixels.show() raises a RuntimeError, the LED strip is reinitialized using stored parameters.
     """
     global positions
 

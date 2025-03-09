@@ -182,6 +182,8 @@ if __name__ == '__main__':
             update_leds()
             if current_state == "show":
                 time.sleep(0.01)
+            else:
+                time.sleep(0.01)
     except KeyboardInterrupt:
         for uni in universes.values():
             uni["pixels"].fill((0, 0, 0))
