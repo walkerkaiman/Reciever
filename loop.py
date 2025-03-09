@@ -40,7 +40,7 @@ def setup(led_universes):
     print("Loop mode setup complete with independent positions for each universe.")
 
 def update(led_universes):
-    print(led_universes)
+    print("\n" + led_universes)
     """
     Called repeatedly while in 'loop' mode.
     
