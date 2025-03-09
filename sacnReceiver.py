@@ -154,20 +154,22 @@ def update_leds():
         last_state = current_state
 
     if current_state == "show":
-        try:
-            pixel_data = update_queue.get(timeout=0.01)
-            for i, color in enumerate(pixel_data):
+        latest_data = None
+        # Drain the queue; process only the most recent data.
+        while not update_queue.empty():
+            try:
+                latest_data = update_queue.get_nowait()
+            except queue.Empty:
+                break
+        if latest_data is not None:
+            for i, color in enumerate(latest_data):
                 if i < len(pixels):
                     pixels[i] = color
             pixels.show()
-        except queue.Empty:
-            pass
     elif current_state == "loop":
         if external_loop_module is not None and hasattr(external_loop_module, "update"):
-            # Delegate LED update to external loop module.
             external_loop_module.update(pixels)
         else:
-            # Fallback: simple shifting gradient.
             num_pixels = len(pixels)
             for i in range(num_pixels):
                 r = (i * 5 + loop_animation_index) % 256
@@ -176,7 +178,6 @@ def update_leds():
                 pixels[i] = (r, g, b)
             pixels.show()
             loop_animation_index = (loop_animation_index + 1) % 256
-        # Throttle update rate in loop mode.
         time.sleep(0.1)
 
 # =============================================================================
