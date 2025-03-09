@@ -52,7 +52,7 @@ for uni_config in config["universes"]:
     brightness = uni_config.get("brightness", 1.0)
     channels_per_universe = uni_config.get("channels_per_universe", 512)
     channels_per_fixture = uni_config.get("channels_per_fixture", 3)
-    num_leds = channels_per_universe // channels_per_fixture
+    num_leds = channels_per_universe
 
     universes[universe_num] = {
         "pixels": neopixel.NeoPixel(data_pin, num_leds, brightness=brightness, auto_write=False),
