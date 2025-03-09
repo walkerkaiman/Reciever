@@ -59,7 +59,7 @@ def update(led_universes):
         
         # If there are LEDs, light one LED at the current position.
         if len(pixels) > 0:
-            pixels[pos] = (int(255/key*2), 255, 255)
+            pixels[pos] = (int(255/(key*2)), 255, 255)
         pixels.show()
         
         # Update the position for the next frame for this universe.
