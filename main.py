@@ -19,6 +19,12 @@ with open("config.json", "r") as f:
 UDP_PORT = config.get("udp_port", 5000)
 LOOP_FILE = config.get("loop_file", "loop.py")
 
+PIN_LOOKUP = {
+    "GPIO18": board.D18,
+    "GPIO12": board.D12,
+    "GPIO21": board.D21
+}
+
 # -----------------------------------------------------------------------------
 # Initialize sACN Receiver
 # -----------------------------------------------------------------------------
@@ -42,11 +48,7 @@ for uni_config in config["universes"]:
     # Convert the data_pin string to the board object attribute.
     # Adjust this mapping if necessary. Here we assume the pin string (e.g., "GPIO17")
     # corresponds to an attribute in the board module.
-    data_pin_str = uni_config["data_pin"].upper()
-    data_pin = getattr(board, data_pin_str, None)
-    if data_pin is None:
-        raise ValueError(f"Invalid data_pin: {data_pin_str}")
-
+    data_pin = PIN_LOOKUP[uni_config["data_pin"]]
     brightness = uni_config.get("brightness", 1.0)
     channels_per_universe = uni_config.get("channels_per_universe", 512)
     channels_per_fixture = uni_config.get("channels_per_fixture", 3)
