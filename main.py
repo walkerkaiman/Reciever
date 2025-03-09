@@ -57,7 +57,7 @@ for uni_config in config["universes"]:
         "brightness": brightness
     }
 
-    print(f"Initialized universe: {universe_num} Pin: {data_pin} Num of LEDs: {num_leds} Brightness: {brightness}")
+    print(f"Initialized universe: {universe_num} NeoPixel ID: {id(universes[universe_num]['pixels'])} Pin: {data_pin} Num of LEDs: {num_leds} Brightness: {brightness}")
 
 # -----------------------------------------------------------------------------
 # Global state variable for mode ("loop" or "show")
