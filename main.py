@@ -21,24 +21,11 @@ LOOP_FILE = config.get("loop_file", "loop.py")
 receiver = sacn.sACNreceiver()
 receiver.start()
 
-PIN_LOOKUP = {
-    "GPIO4": board.D4,
-    "GPIO5": board.D5,
-    "GPIO6": board.D6,
+PIN_LOOKUP = { # Only pins possible for NeoPixels on the Raspberry Pi
+    "GPIO10": board.D10,
     "GPIO12": board.D12, # PWM
-    "GPIO13": board.D13, # PWM
-    "GPIO16": board.D16,
-    "GPIO17": board.D17,
     "GPIO18": board.D18,  # PWM
-    "GPIO19": board.D19,  # PWM
-    "GPIO20": board.D20,
-    "GPIO21": board.D21,
-    "GPIO22": board.D22,
-    "GPIO23": board.D23,
-    "GPIO24": board.D24,
-    "GPIO25": board.D25,
-    "GPIO26": board.D26,
-    "GPIO27": board.D27,
+    "GPIO21": board.D21
 }
 
 # Dictionary to hold LED strip objects and update queues per universe

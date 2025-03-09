@@ -1,3 +1,4 @@
+// Can only use pins GPIO10, GPIO12, GPIO18, GPIO21 on the Raspberry Pi
 {
   "udp_port": 5000,
   "loop_file": "loop.py",
@@ -12,13 +13,13 @@
       "brightness": 0.5,
       "channels_per_universe": 256,
       "universe": 2,
-      "data_pin": "GPIO19"
+      "data_pin": "GPIO12"
     },
     {
       "brightness": 1.0,
       "channels_per_universe": 128,
       "universe": 3,
-      "data_pin": "GPIO27"
+      "data_pin": "GPIO21"
     }
   ]
 }
