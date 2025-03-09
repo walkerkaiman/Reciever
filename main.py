@@ -118,14 +118,14 @@ def update_leds():
         if external_loop_module and hasattr(external_loop_module, "update"):
             for universe in universes.values():
                 external_loop_module.update(universe["pixels"])
-        time.sleep(0.1)
 
 if __name__ == '__main__':
     threading.Thread(target=udp_listener, daemon=True).start()
     try:
         while True:
             update_leds()
-            time.sleep(0.01 if current_state == "show" else 0.1)
+            if current_state == "show":
+                time.sleep(0.01)
     except KeyboardInterrupt:
         for universe in universes.values():
             universe["pixels"].fill((0, 0, 0))
