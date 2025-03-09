@@ -25,7 +25,7 @@ def setup(led_universes):
                             
     Initializes an independent animation position for each universe and clears all LED strips.
     """
-    global positions
+    global positions, led_data
     positions = {}
 
     for key, uni in led_universes.items():
@@ -40,7 +40,6 @@ def setup(led_universes):
     print("Loop mode setup complete with independent positions for each universe.")
 
 def update(led_universes):
-    print("\n" + led_universes)
     """
     Called repeatedly while in 'loop' mode.
     
@@ -54,7 +53,7 @@ def update(led_universes):
       - Updates the position tracker.
       - Calls pixels.show() to update the hardware.
     """
-    global positions
+    global positions, led_data
 
     for key, uni in led_universes.items():
 
@@ -65,7 +64,7 @@ def update(led_universes):
 
         # Light up the moving LED
         positions[key] = (positions[key] + 1) % num_pixels
-        uni["pixels"][positions[key]] = (255, 255, 255)
+        uni["pixels"][positions[key]] = (100, 150, 255)
 
         try:
             uni["pixels"].show()
