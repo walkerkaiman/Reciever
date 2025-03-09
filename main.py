@@ -174,7 +174,6 @@ def update_leds():
                 pos = int(time.time() * 10) % num_pixels  # Simple position based on time
                 uni["pixels"][pos] = (255, 255, 255)
                 uni["pixels"].show()
-            time.sleep(0.1)
 
 # -----------------------------------------------------------------------------
 # Main execution loop
@@ -186,7 +185,8 @@ if __name__ == '__main__':
         while True:
             update_leds()
             # Short sleep when in "show" mode for responsiveness.
-            time.sleep(0.01 if current_state == "show" else 0.1)
+            if (current_state == "show"):
+                time.sleep(0.01)
     except KeyboardInterrupt:
         for uni in universes.values():
             uni["pixels"].fill((0, 0, 0))
