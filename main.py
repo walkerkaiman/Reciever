@@ -39,7 +39,6 @@ PIN_LOOKUP = {
     "GPIO25": board.D25,
     "GPIO26": board.D26,
     "GPIO27": board.D27,
-    "GPIO28": board.D28
 }
 
 # Dictionary to hold LED strip objects and update queues per universe
