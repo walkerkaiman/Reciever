@@ -37,7 +37,6 @@ def setup(led_universes):
             uni["pixels"].show()
         except RuntimeError as e:
             print(f"Setup error in universe {key}: {e}")
-    print("Loop mode setup complete with independent positions for each universe.")
 
 def update(led_universes):
     """
@@ -67,7 +66,7 @@ def update(led_universes):
         uni["pixels"][positions[key]] = (100, 150, 255)
 
         try:
-            uni["pixels"].show()
+            #uni["pixels"].show()
         except RuntimeError as e:
             print(f"Error updating universe {key}: {e}")
 
