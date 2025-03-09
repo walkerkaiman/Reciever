@@ -3,7 +3,7 @@
   "loop_file": "loop.py",
   "universes": [
     {
-      "brightness": 0.8,
+      "brightness": 0.1,
       "channels_per_universe": 300,
       "universe": 1,
       "data_pin": "GPIO18"
