@@ -4,7 +4,7 @@
   "universes": [
     {
       "brightness": 0.8,
-      "channels_per_universe": 512,
+      "channels_per_universe": 300,
       "universe": 1,
       "data_pin": "GPIO18"
     },
