@@ -44,7 +44,7 @@ def update(pixels):
     pixels.show()
 
     # Move to the next LED position
-    position = (position + 1) % len(pixels)
+    position = (position + 1) % len(pixels-1)
 
     # Small delay to control animation speed
     time.sleep(FRAME_DELAY)
