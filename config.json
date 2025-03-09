@@ -6,19 +6,19 @@
       "brightness": 0.8,
       "channels_per_universe": 512,
       "universe": 1,
-      "data_pin": "GPIO18",
+      "data_pin": "GPIO18"
     },
     {
       "brightness": 0.5,
       "channels_per_universe": 256,
       "universe": 2,
-      "data_pin": "GPIO17",
+      "data_pin": "GPIO17"
     },
     {
       "brightness": 1.0,
       "channels_per_universe": 128,
       "universe": 3,
-      "data_pin": "GPIO27",
+      "data_pin": "GPIO27"
     }
   ]
 }
