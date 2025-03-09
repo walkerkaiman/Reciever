@@ -1,50 +1,60 @@
 """
-GPIO Operations:
-Reading sensor values via libraries like RPi.GPIO or gpiozero is generally fast. 
-If you keep these operations optimized (for example, avoid long blocking calls), 
-they should not delay the LED updates significantly.
+This module defines the behavior for 'loop' mode.
+It can include sensor readings using RPi.GPIO (or gpiozero)
+and applies an LED animation across multiple universes.
 
 Best Practices:
-Ensure that the update function in loop.py returns quickly. 
-If a sensor read or any GPIO operation takes too long, you might notice a lag in your LED animations. 
-Also, if using RPi.GPIO, remember to call GPIO.cleanup() when needed (typically on exit) 
-to avoid resource conflicts.
+  - Keep the update() function non-blocking and fast.
+  - If using RPi.GPIO, perform GPIO.cleanup() on exit if needed.
 """
+
 import time
-import RPi.GPIO
+import RPi.GPIO  # For sensor or input operations
 
-# Global variables (if needed)
-position = 0  # Tracks the current LED position
-FRAME_DELAY = 0.01  # Delay between updates
+# Global variables for animation
+position = 0  # Common animation position across universes
+FPS = 30      # Frames per second (controls animation speed)
 
-def setup(pixels):
+def setup(led_universes):
     """
-    This function is called once when 'loop' mode starts.
-    Use it for initialization (e.g., setting up variables or clearing LEDs).
+    Called once when 'loop' mode starts.
+    led_universes: A dictionary where keys are universe numbers and values are dicts with a 'pixels' key.
+    This function initializes animation variables and clears all LED strips.
     """
     global position
     position = 0  # Reset the animation position
-    pixels.fill((0, 0, 0))  # Turn off all LEDs initially
-    pixels.show()
+    for uni in led_universes.values():
+        uni["pixels"].fill((0, 0, 0))
+        uni["pixels"].show()
+    # Example: Setup GPIO sensor(s) if needed.
+    # RPi.GPIO.setmode(RPi.GPIO.BCM)
+    # RPi.GPIO.setup(17, RPi.GPIO.IN)
+    print("Loop mode setup complete.")
 
-def update(pixels):
+def update(led_universes):
     """
-    This function is called repeatedly while in 'loop' mode.
-    It updates the LED animation frame-by-frame.
+    Called repeatedly while in 'loop' mode.
+    led_universes: A dictionary where keys are universe numbers and values are dicts with a 'pixels' key.
+    This example performs a simple animation by lighting a single LED white on each strip.
+    Sensor readings or more advanced logic can be added here.
     """
     global position
+    # For each universe, perform the animation update.
+    for uni in led_universes.values():
+        pixels = uni["pixels"]
+        # Clear the LED strip.
+        pixels.fill((0, 0, 0))
+        # If there are LEDs, light one LED at the current position.
+        if len(pixels) > 0:
+            pixels[position] = (255, 255, 255)
+        pixels.show()
+    
+    # Update the position for the next frame.
+    # This is a common position across all universes; you could also track separate positions if desired.
+    # Here we assume all universes have the same number of LEDs.
+    sample_universe = next(iter(led_universes.values()))
+    num_pixels = len(sample_universe["pixels"])
+    position = (position + 1) % num_pixels
 
-    # Turn off all LEDs
-    pixels.fill((0, 0, 0))
-
-    # Set the current LED to white
-    pixels[position] = (255, 255, 255)
-
-    # Show the updated frame
-    pixels.show()
-
-    # Move to the next LED position
-    position = (position + 1) % (len(pixels)-1)
-
-    # Small delay to control animation speed
-    time.sleep(FRAME_DELAY)
+    # Delay to control the animation speed.
+    time.sleep(1 / FPS)
