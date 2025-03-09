@@ -38,25 +38,25 @@ receiver.start()
 #   - "brightness"
 #   - "channels_per_universe"
 #   - "universe" (number)
-#   - "data_pin" (string, e.g., "GPIO17")
+#   - "data_pin" (string, e.g., "GPIO18")
 #   - "channels_per_fixture"
 universes = {}
 
 for uni_config in config["universes"]:
     universe_num = uni_config["universe"]
-
-    # Convert the data_pin string to the board object attribute.
-    # Adjust this mapping if necessary. Here we assume the pin string (e.g., "GPIO17")
-    # corresponds to an attribute in the board module.
     data_pin = PIN_LOOKUP[uni_config["data_pin"]]
     brightness = uni_config.get("brightness", 1.0)
     channels_per_universe = uni_config.get("channels_per_universe", 512)
-    channels_per_fixture = uni_config.get("channels_per_fixture", 3)
+    # The number of LEDs is now set directly to channels_per_universe.
     num_leds = channels_per_universe
 
     universes[universe_num] = {
         "pixels": neopixel.NeoPixel(data_pin, num_leds, brightness=brightness, auto_write=False),
-        "update_queue": queue.Queue()
+        "update_queue": queue.Queue(),
+        # Save initialization parameters for potential reinitialization.
+        "data_pin": data_pin,
+        "num_leds": num_leds,
+        "brightness": brightness
     }
 
 # -----------------------------------------------------------------------------
@@ -66,7 +66,7 @@ current_state = "loop"
 last_state = "loop"
 
 # -----------------------------------------------------------------------------
-# Load external loop module if available. Can set name from config file.
+# Load external loop module if available.
 # -----------------------------------------------------------------------------
 def load_external_loop_module():
     global external_loop_module
@@ -99,7 +99,7 @@ def create_sacn_callback(universe_num):
         universes[universe_num]["update_queue"].put(dmx)
     return callback
 
-# Register a callback for each universe
+# Register a callback for each universe.
 for universe_num in universes.keys():
     receiver.listen_on('universe', universe=universe_num)(create_sacn_callback(universe_num))
 
@@ -117,7 +117,7 @@ def udp_listener():
         if message in ["show", "loop"]:
             current_state = message
             print("State switched to:", current_state)
-            # When switching to loop mode, flush all DMX update queues.
+            # Flush DMX queues when switching to loop mode.
             if current_state == "loop":
                 for uni in universes.values():
                     while not uni["update_queue"].empty():
@@ -163,7 +163,7 @@ def update_leds():
                         uni["pixels"][led_index] = tuple(latest_data[i:i+3])
                 uni["pixels"].show()
     elif current_state == "loop":
-        # In loop mode, delegate update to external loop module if available.
+        # In loop mode, delegate update to the external loop module if available.
         if external_loop_module and hasattr(external_loop_module, "update"):
             external_loop_module.update(universes)
         else:
@@ -171,21 +171,17 @@ def update_leds():
             for uni in universes.values():
                 num_pixels = len(uni["pixels"])
                 uni["pixels"].fill((0, 0, 0))
-                pos = int(time.time() * 10) % num_pixels  # Simple position based on time
+                pos = int(time.time() * 10) % num_pixels
                 uni["pixels"][pos] = (255, 255, 255)
                 uni["pixels"].show()
 
-# -----------------------------------------------------------------------------
-# Main execution loop
-# -----------------------------------------------------------------------------
 if __name__ == '__main__':
     threading.Thread(target=udp_listener, daemon=True).start()
     threading.Thread(target=command_line_animation, daemon=True).start()
     try:
         while True:
             update_leds()
-            # Short sleep when in "show" mode for responsiveness.
-            if (current_state == "show"):
+            if current_state == "show":
                 time.sleep(0.01)
     except KeyboardInterrupt:
         for uni in universes.values():
