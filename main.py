@@ -46,7 +46,7 @@ PIN_LOOKUP = {
 universes = {}
 
 for universe_config in config["universes"]:
-    universe_num = universe_config["universe"]
+    universe_num = universe_config.get("universe", 1)
     brightness = universe_config.get("brightness", 1.0)
     num_channels = universe_config.get("channels_per_universe", 512)
     
