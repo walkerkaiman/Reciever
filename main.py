@@ -147,7 +147,7 @@ def command_line_animation():
 # LED Update Routine
 # -----------------------------------------------------------------------------
 def update_leds():
-    global last_state, current_state
+    global last_state, current_state, universes
     
     # On state change, clear all LED strips.
     if last_state != current_state:
