@@ -12,7 +12,7 @@
       "brightness": 0.5,
       "channels_per_universe": 256,
       "universe": 2,
-      "data_pin": "GPIO17"
+      "data_pin": "GPIO19"
     },
     {
       "brightness": 1.0,
