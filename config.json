@@ -5,7 +5,7 @@
   "universes": [
     {
       "brightness": 0.1,
-      "channels_per_universe": 200,
+      "channels_per_universe": 205,
       "universe": 1,
       "data_pin": "GPIO18"
     },
@@ -19,7 +19,7 @@
       "brightness": 1.0,
       "channels_per_universe": 128,
       "universe": 3,
-      "data_pin": "GPIO21"
+      "data_pin": "GPIO10"
     }
   ]
 }
