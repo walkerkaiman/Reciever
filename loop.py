@@ -26,7 +26,7 @@ def setup(led_universes):
 
     for key, uni in led_universes.items():
         num_pixels = len(uni["pixels"])
-        positions[key] = key % num_pixels if num_pixels > 0 else 0
+        positions[key] = 0
         uni["pixels"].fill((0, 0, 0))
         
         try:
@@ -56,7 +56,10 @@ def update(led_universes):
 
         # Light up the moving LED
         positions[key] = (positions[key] + 1) % uni["num_leds"]
-        uni["pixels"][positions[key]] = (100, 150, 255)
+        if uni["universe"] == 1:
+            uni["pixels"][positions[key]] = (100, 150, 255)
+        else:
+            uni["pixels"][positions[key]] = (255, 0, 255)
 
         try:
             uni["pixels"].show()
