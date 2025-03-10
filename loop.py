@@ -49,13 +49,12 @@ def update(led_universes):
     global positions
 
     for key, uni in led_universes.items():
-        print(key)
         # Ensure the strip is cleared before updating
         uni["pixels"].fill((0, 0, 0))
 
         # Light up the moving LED
-        positions[key] = (positions[key] + 1) % uni["num_leds"]
-        uni["pixels"][positions[key]] = (100, 150, 255)
+        positions[key-1] = (positions[key-1] + 1) % uni["num_leds"]
+        uni["pixels"][positions[key-1]] = (100, 150, 255)
 
         try:
             uni["pixels"].show()
