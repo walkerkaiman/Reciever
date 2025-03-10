@@ -1,6 +1,7 @@
 {
   "udp_port": 5000,
   "loop_file": "loop.py",
+  "fps": 30,
   "universes": [
     {
       "brightness": 0.1,

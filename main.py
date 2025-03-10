@@ -18,11 +18,12 @@ with open("config.json", "r") as f:
 
 UDP_PORT = config.get("udp_port", 5000)
 LOOP_FILE = config.get("loop_file", "loop.py")
-FRAME_RATE = 30
+FRAME_RATE = config.get("fps", 30)
 
 PIN_LOOKUP = {
-    "GPIO18": board.D18,
+    "GPIO10": board.D10,
     "GPIO12": board.D12,
+    "GPIO18": board.D18,
     "GPIO21": board.D21
 }
 
@@ -58,7 +59,7 @@ for uni_config in config["universes"]:
         "brightness": brightness
     }
 
-    print(f"Initialized universe: {universe_num} NeoPixel ID: {id(universes[universe_num]['pixels'])} Pin: {data_pin} Num of LEDs: {num_leds} Brightness: {brightness}")
+    print(f"Universe: {universe_num}// NeoPixel ID: {id(universes[universe_num]['pixels'])}// Pin: {data_pin}// Num of LEDs: {num_leds}// Brightness: {brightness}")
 
 # -----------------------------------------------------------------------------
 # Global state variable for mode ("loop" or "show")
@@ -155,6 +156,7 @@ def update_leds():
             uni["pixels"].fill((0, 0, 0))
             uni["pixels"].show()
         last_state = current_state
+        print("Current Mode: {current_state}")
 
     if current_state == "show":
         # Process incoming DMX data for each universe.
@@ -181,7 +183,7 @@ def update_leds():
                 pos = int(time.time() * 10) % num_pixels
                 uni["pixels"][pos] = (255, 255, 255)
                 uni["pixels"].show()
-                print("No loop file found. Make sure it exists and correctly assigned in config.json.")
+                print("\nNo loop file found. \nMake sure it exists and correctly assigned in config.json.")
 
 if __name__ == '__main__':
     threading.Thread(target=udp_listener, daemon=True).start()

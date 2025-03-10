@@ -2,9 +2,6 @@
 This module defines the behavior for 'loop' mode.
 It includes sensor readings using RPi.GPIO and applies an LED animation
 across multiple universes, with each universe tracking its own animation position.
-
-If a RuntimeError occurs during pixels.show() (such as a memory allocation issue),
-the code will reinitialize that universe's LED strip using stored parameters.
 """
 
 import time
@@ -20,7 +17,7 @@ def setup(led_universes):
     
     Parameters:
       led_universes (dict): A dictionary where keys are universe numbers and values
-                            are dicts containing at least the 'pixels' key and initialization parameters.
+      are dicts containing at least the 'pixels' key and initialization parameters.
                             
     Initializes an independent animation position for each universe and clears all LED strips.
     """
@@ -54,19 +51,14 @@ def update(led_universes):
     global positions
 
     for key, uni in led_universes.items():
-
-        num_pixels = len(uni["pixels"])
-
         # Ensure the strip is cleared before updating
         uni["pixels"].fill((0, 0, 0))
 
         # Light up the moving LED
-        positions[key] = (positions[key] + 1) % num_pixels
+        positions[key] = (positions[key] + 1) % uni["num_leds"]
         uni["pixels"][positions[key]] = (100, 150, 255)
 
         try:
             uni["pixels"].show()
-            #print(f"universe: {key} Position: {positions[key]}")
         except RuntimeError as e:
             print(f"Error updating universe {key}: {e}")
-
