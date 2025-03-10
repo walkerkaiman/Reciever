@@ -70,8 +70,8 @@ for uni in config["universes"]:
         "brightness": brightness
     }
 
-    universes[0]["pixels"] = universe_1
-    universes[1]["pixels"] = universe_2
+    universes[1]["pixels"] = universe_1
+    universes[2]["pixels"] = universe_2
     print(f"Universe: {universe_num} // NeoPixel ID: {id(universes[universe_num]['pixels'])} // Pin: {data_pin} // Num of LEDs: {num_of_LEDs} // Brightness: {brightness}")
 
 
