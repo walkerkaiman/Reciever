@@ -23,13 +23,14 @@ def setup(led_universes):
     """
 
     for uni in led_universes.items():
+        print(uni)
         num_pixels = uni["num_leds"]
         uni["pixels"].fill((0, 0, 0))
         
         try:
             uni["pixels"].show()
         except RuntimeError as e:
-            print(f"Setup error in universe")
+            print("Setup error in loop script!")
 
 def update(led_universes):
     """
