@@ -175,6 +175,9 @@ def update_leds():
         # In loop mode, delegate update to the external loop module if available.
         if external_loop_module and hasattr(external_loop_module, "update"):
             external_loop_module.update(universes)
+
+            for key, uni in universes.items():
+                uni["pixels"].show()
         else:
             # Fallback: simple animation (a shifting white dot) per universe.
             for uni in universes.values():
