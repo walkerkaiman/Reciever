@@ -82,9 +82,9 @@ def load_external_loop_module():
 
         if hasattr(external_loop_module, "setup"):
             external_loop_module.setup(universes)
-        print("Loaded external loop module from:", module_path)
+        print("\nLoaded external loop module from:", module_path)
     else:
-        print("No external loop module found at:", module_path)
+        print("\nNo external loop module found at:", module_path)
         external_loop_module = None
 
 load_external_loop_module()
