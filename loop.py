@@ -48,6 +48,7 @@ def update(led_universes):
         # Light up the moving LED with a different color per universe
         if key == 1: # Red
             pixel_color = (255, 0, 0)
+            positions[key-1] = (positions[key-1] + 1) % uni["num_leds"]
         elif key == 2: # Green
             pixel_color = (0, 255, 0)
         elif key == 3: # Blue
