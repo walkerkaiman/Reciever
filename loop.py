@@ -56,7 +56,7 @@ def update(led_universes):
 
         # Light up the moving LED
         positions[key] = (positions[key] + 1) % uni["num_leds"]
-        if uni["universe"] == 1:
+        if key == 1:
             uni["pixels"][positions[key]] = (100, 150, 255)
         else:
             uni["pixels"][positions[key]] = (255, 0, 255)
