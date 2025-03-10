@@ -48,14 +48,13 @@ for uni_config in config["universes"]:
     universe_num = uni_config["universe"]
     data_pin = PIN_LOOKUP[uni_config["data_pin"]]
     brightness = uni_config.get("brightness", 1.0)
-    channels_per_universe = uni_config.get("channels_per_universe", 512)
-    num_leds = channels_per_universe
+    num_of_LEDs = uni_config.get("channels_per_universe", 512)
 
     universes[universe_num] = {
-        "pixels": neopixel.NeoPixel(data_pin, num_leds, brightness=brightness, auto_write=False),
+        "pixels": neopixel.NeoPixel(data_pin, num_of_LEDs, brightness=brightness, auto_write=False),
         "update_queue": queue.Queue(),
         "data_pin": data_pin,
-        "num_leds": num_leds,
+        "num_leds": num_of_LEDs,
         "brightness": brightness
     }
 
@@ -75,6 +74,7 @@ def load_external_loop_module():
 
     module_name = "external_loop"
     module_path = os.path.join(os.path.dirname(__file__), LOOP_FILE)
+    
     if os.path.exists(module_path):
         spec = importlib.util.spec_from_file_location(module_name, module_path)
         external_loop_module = importlib.util.module_from_spec(spec)
