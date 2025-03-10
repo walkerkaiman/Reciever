@@ -22,7 +22,7 @@ def setup(led_universes):
     Initializes an independent animation position for each universe and clears all LED strips.
     """
 
-    for uni in led_universes.items():
+    for key, uni in led_universes.items():
         print(led_universes.items())
         num_pixels = uni["num_leds"]
         uni["pixels"].fill((0, 0, 0))
