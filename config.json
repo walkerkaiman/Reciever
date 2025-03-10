@@ -20,6 +20,12 @@
       "channels_per_universe": 128,
       "universe": 3,
       "data_pin": "GPIO10"
+    },
+    {
+      "brightness": 0.5,
+      "channels_per_universe": 84,
+      "universe": 4,
+      "data_pin": "GPIO21"
     }
   ]
 }
