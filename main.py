@@ -27,18 +27,6 @@ PIN_LOOKUP = {
     "GPIO21": board.D21
 }
 
-universe_num_1 = config["universes"][0]["universe"]
-data_pin_1 = PIN_LOOKUP[config["universes"][0]["data_pin"]]
-num_of_LEDs_1 = config["universes"][0].get("channels_per_universe", 512)
-brightness_1 = config["universes"][0].get("brightness", 1.0)
-universe_1 = neopixel.NeoPixel(data_pin_1, num_of_LEDs_1, brightness=brightness_1, auto_write=False)
-
-universe_num_2 = config["universes"][1]["universe"]
-data_pin_2 = PIN_LOOKUP[config["universes"][1]["data_pin"]]
-num_of_LEDs_2 = config["universes"][1].get("channels_per_universe", 512)
-brightness_2 = config["universes"][1].get("brightness", 1.0)
-universe_2 = neopixel.NeoPixel(data_pin_2, num_of_LEDs_2, brightness=brightness_2, auto_write=False)
-
 # -----------------------------------------------------------------------------
 # Initialize sACN Receiver
 # -----------------------------------------------------------------------------
@@ -54,6 +42,7 @@ receiver.start()
 #   - "universe" (number)
 #   - "data_pin" (string, e.g., "GPIO18")
 #   - "channels_per_fixture"
+
 universes = {}
 
 for uni in config["universes"]:
@@ -63,17 +52,15 @@ for uni in config["universes"]:
     num_of_LEDs = uni.get("channels_per_universe", 512)
 
     universes[universe_num] = {
-        #"pixels": neopixel.NeoPixel(data_pin, num_of_LEDs, brightness=brightness, auto_write=False),
+        "pixels": neopixel.NeoPixel(data_pin, num_of_LEDs, brightness=brightness, auto_write=False),
         "update_queue": queue.Queue(),
         "data_pin": data_pin,
         "num_leds": num_of_LEDs,
         "brightness": brightness
     }
 
+    print(f"Universe: {universe_num} // NeoPixel ID: {id(universes[universe_num]['pixels'])} // Pin: {data_pin} // Num of LEDs: {num_of_LEDs} // Brightness: {brightness}")
 
-    #print(f"Universe: {universe_num} // NeoPixel ID: {id(universes[universe_num]['pixels'])} // Pin: {data_pin} // Num of LEDs: {num_of_LEDs} // Brightness: {brightness}")
-universes[1]["pixels"] = universe_1
-universes[2]["pixels"] = universe_2
 
 # -----------------------------------------------------------------------------
 # Global state variable for mode ("loop" or "show")
