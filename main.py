@@ -114,7 +114,7 @@ def udp_listener():
     
     sock = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
     sock.bind(("0.0.0.0", UDP_PORT))
-    print("UDP listener started on port", UDP_PORT, "/n")
+    print("UDP listener started on port", UDP_PORT)
     
     while True:
         data, _ = sock.recvfrom(1024)
@@ -130,7 +130,7 @@ def udp_listener():
                     while not uni["update_queue"].empty():
                         uni["update_queue"].get_nowait()
         else:
-            print("Received unknown command:", message)
+            print("\nReceived unknown command:", message)
 
 # -----------------------------------------------------------------------------
 # Command-line spinner for visual feedback
