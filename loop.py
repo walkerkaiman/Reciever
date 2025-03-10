@@ -9,7 +9,7 @@ import time
 #import neopixel
 
 # Dictionary to track the current position for each universe.
-positions = {}
+positions = [0, 0, 0]
 
 def setup(led_universes):
     """
@@ -21,18 +21,15 @@ def setup(led_universes):
                             
     Initializes an independent animation position for each universe and clears all LED strips.
     """
-    global positions
-    positions = {}
 
-    for key, uni in led_universes.items():
+    for uni in led_universes.items():
         num_pixels = len(uni["pixels"])
-        positions[key] = 0
         uni["pixels"].fill((0, 0, 0))
         
         try:
             uni["pixels"].show()
         except RuntimeError as e:
-            print(f"Setup error in universe {key}: {e}")
+            print(f"Setup error in universe")
 
 def update(led_universes):
     """
@@ -51,15 +48,13 @@ def update(led_universes):
     global positions
 
     for key, uni in led_universes.items():
+        print(key)
         # Ensure the strip is cleared before updating
         uni["pixels"].fill((0, 0, 0))
 
         # Light up the moving LED
         positions[key] = (positions[key] + 1) % uni["num_leds"]
-        if key == 1:
-            uni["pixels"][positions[key]] = (100, 150, 255)
-        else:
-            uni["pixels"][positions[key]] = (255, 0, 255)
+        uni["pixels"][positions[key]] = (100, 150, 255)
 
         try:
             uni["pixels"].show()
