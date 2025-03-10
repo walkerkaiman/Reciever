@@ -70,10 +70,10 @@ for uni in config["universes"]:
         "brightness": brightness
     }
 
-    universes[1]["pixels"] = universe_1
-    universes[2]["pixels"] = universe_2
-    print(f"Universe: {universe_num} // NeoPixel ID: {id(universes[universe_num]['pixels'])} // Pin: {data_pin} // Num of LEDs: {num_of_LEDs} // Brightness: {brightness}")
 
+    print(f"Universe: {universe_num} // NeoPixel ID: {id(universes[universe_num]['pixels'])} // Pin: {data_pin} // Num of LEDs: {num_of_LEDs} // Brightness: {brightness}")
+universes[1]["pixels"] = universe_1
+universes[2]["pixels"] = universe_2
 
 # -----------------------------------------------------------------------------
 # Global state variable for mode ("loop" or "show")
