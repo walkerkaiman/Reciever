@@ -51,6 +51,5 @@ def update(led_universes):
         
         try:
             uni["pixels"].show()
-            print(f"{key} Updated")
         except RuntimeError as e:
             print(f"Error updating universe {key}: {e}")
