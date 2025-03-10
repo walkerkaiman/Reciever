@@ -29,7 +29,7 @@ def setup(led_universes):
             print("Setup error in loop script!")
 
 # Dictionary to track the current position for each universe.
-positions = [0, 0, 0]
+positions = [0, 0, 0, 0]
 
 def update(led_universes):
     """
@@ -52,6 +52,8 @@ def update(led_universes):
             uni["pixels"][positions[key-1]] = (0, 255, 0)
         elif key == 3: # Blue
             uni["pixels"][positions[key-1]] = (0, 0, 255)
+        else:
+            uni["pixels"][positions[key-1]] = (255, 255, 255)
 
         # Move the position of the LED for the next frame
         positions[key-1] = (positions[key-1] + 1) % uni["num_leds"]

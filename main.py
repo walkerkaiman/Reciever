@@ -114,7 +114,7 @@ def udp_listener():
     
     sock = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
     sock.bind(("0.0.0.0", UDP_PORT))
-    print("UDP listener started on port", UDP_PORT)
+    print("UDP listener started on port", UDP_PORT, "/n")
     
     while True:
         data, _ = sock.recvfrom(1024)
