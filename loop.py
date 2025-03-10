@@ -8,9 +8,6 @@ import time
 #import RPi.GPIO  # For sensor or input operations
 #import neopixel
 
-# Dictionary to track the current position for each universe.
-positions = [0, 0, 0]
-
 def setup(led_universes):
     """
     Called once when 'loop' mode starts.
@@ -31,6 +28,9 @@ def setup(led_universes):
         except RuntimeError as e:
             print("Setup error in loop script!")
 
+# Dictionary to track the current position for each universe.
+positions = [0, 0, 0]
+
 def update(led_universes):
     """
     Called repeatedly while in 'loop' mode.
@@ -38,12 +38,6 @@ def update(led_universes):
     Parameters:
       led_universes (dict): A dictionary where keys are universe numbers and values
                             are dicts containing at least the 'pixels' key and initialization parameters.
-    
-    For each universe:
-      - Clears the LED strip.
-      - Lights one LED (white) at the current position.
-      - Updates the position tracker.
-      - Calls pixels.show() to update the hardware.
     """
     global positions
 
@@ -57,5 +51,6 @@ def update(led_universes):
         
         try:
             uni["pixels"].show()
+            print(f"{key} Updated")
         except RuntimeError as e:
             print(f"Error updating universe {key}: {e}")
