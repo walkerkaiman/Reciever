@@ -46,12 +46,12 @@ def update(led_universes):
         uni["pixels"].fill((0, 0, 0))
 
         # Light up the moving LED with a different color per universe
-        if key == 1:
-            uni["pixels"][positions[key-1]] = (10, 150, 255)
-        elif key == 2:
-            uni["pixels"][positions[key-1]] = (255, 150, 255)
-        elif key == 3:
-            uni["pixels"][positions[key-1]] = (255, 0, 10)
+        if key == 1: # Red
+            uni["pixels"][positions[key-1]] = (255, 0, 0)
+        elif key == 2:# Green
+            uni["pixels"][positions[key-1]] = (0, 255, 0)
+        elif key == 3:# Blue
+            uni["pixels"][positions[key-1]] = (0, 0, 255)
 
         # Move the position of the LED for the next frame
         positions[key-1] = (positions[key-1] + 1) % uni["num_leds"]
