@@ -23,7 +23,6 @@ def setup(led_universes):
     """
 
     for key, uni in led_universes.items():
-        print(led_universes.items())
         num_pixels = uni["num_leds"]
         uni["pixels"].fill((0, 0, 0))
         
@@ -53,9 +52,9 @@ def update(led_universes):
         uni["pixels"].fill((0, 0, 0))
 
         # Light up the moving LED
-        positions[key-1] = (positions[key-1] + 1) % uni["num_leds"]
         uni["pixels"][positions[key-1]] = (100, 150, 255)
-
+        positions[key-1] = (positions[key-1] + 1) % uni["num_leds"]
+        
         try:
             uni["pixels"].show()
         except RuntimeError as e:
