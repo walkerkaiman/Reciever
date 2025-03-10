@@ -1,11 +1,11 @@
 {
   "udp_port": 5000,
   "loop_file": "loop.py",
-  "fps": 30,
+  "fps": 20,
   "universes": [
     {
       "brightness": 0.1,
-      "channels_per_universe": 150,
+      "channels_per_universe": 200,
       "universe": 1,
       "data_pin": "GPIO18"
     },
