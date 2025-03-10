@@ -23,7 +23,7 @@ def setup(led_universes):
     """
 
     for uni in led_universes.items():
-        num_pixels = int(uni["num_leds"])
+        num_pixels = uni["num_leds"]
         uni["pixels"].fill((0, 0, 0))
         
         try:

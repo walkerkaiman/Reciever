@@ -44,11 +44,11 @@ receiver.start()
 #   - "channels_per_fixture"
 universes = {}
 
-for uni_config in config["universes"]:
-    universe_num = uni_config["universe"]
-    data_pin = PIN_LOOKUP[uni_config["data_pin"]]
-    brightness = uni_config.get("brightness", 1.0)
-    num_of_LEDs = uni_config.get("channels_per_universe", 512)
+for uni in config["universes"]:
+    universe_num = uni["universe"]
+    data_pin = PIN_LOOKUP[uni["data_pin"]]
+    brightness = uni.get("brightness", 1.0)
+    num_of_LEDs = uni.get("channels_per_universe", 512)
 
     universes[universe_num] = {
         "pixels": neopixel.NeoPixel(data_pin, num_of_LEDs, brightness=brightness, auto_write=False),
